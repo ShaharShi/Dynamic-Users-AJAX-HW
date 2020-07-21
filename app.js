@@ -17,7 +17,8 @@ $(function() {
 
     $('#usersBtn').on('click', () => {
         const numberOfUsers = $('#inputGroupSelect01 option:selected').val()
-        init(numberOfUsers)
+        localStorage.setItem('numOfUsers', numberOfUsers)
+        init(localStorage.getItem('numOfUsers'))
     })
 
     
