@@ -6,21 +6,22 @@ function getUsers (params) {
     })
 }
 
-
-// const mapping = {
-//     name: { fn: getName, isVisible: true },
-//     city: { path: "location.city", isVisible: true },
-//     address: { path: "location.street.name", isVisible: true },
-//     src: { path: "picture.large", isVisible: true },
-
-// }
-
 const mappingWithFunction = {
     name: { fn: getName, isVisible: true },
     city: { fn: getCity, isVisible: true },
     address: { fn: getAdress, isVisible: true },
     src: { fn: getUserImgUrl, isVisible: true },
 }
+
+$(function() {
+
+    $('#usersBtn').on('click', () => {
+        const numberOfUsers = $('#inputGroupSelect01 option:selected').val()
+        init(numberOfUsers)
+    })
+
+    
+})
 
 function getName (user) {
     return `${user.name.first} ${user.name.last}`
@@ -36,9 +37,9 @@ function getUserImgUrl (user) {
 }
 
 
-async function init () {
+async function init (numberOfUsers) {
     try {
-        const response = await getUsers({ url: "https://randomuser.me/api/?results=10" })
+        const response = await getUsers({ url: `https://randomuser.me/api/?results=${numberOfUsers}` })
         const { results } = response
         console.log(results) // DRAW HERE
         draw(results)
@@ -68,19 +69,3 @@ function getMappedUser (user) {
     }, {})
 }
 
-
-
-// function getValueFromPath (path, user) {
-//     if (typeof path !== 'string') return
-//     const splittedPath = path.split(".")
-//     const theRequestedValue = splittedPath.reduce((currentUser, partOfPath) => {
-//         const isValueExist = currentUser[ partOfPath ]
-//         return isValueExist ? currentUser[ partOfPath ] : "Not Availble"
-//     }, user)
-//     return theRequestedValue
-// }
-
-
-(function () {
-    init()
-})()
