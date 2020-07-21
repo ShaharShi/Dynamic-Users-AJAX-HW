@@ -7,17 +7,20 @@ function getUsers (params) {
 }
 
 const mappingWithFunction = {
-    name: { fn: getName, isVisible: true },
+    fullName: { fn: getName, isVisible: true },
+    country: { fn: getCountry, isVisible: true },
     city: { fn: getCity, isVisible: true },
     address: { fn: getAdress, isVisible: true },
     src: { fn: getUserImgUrl, isVisible: true },
 }
 
 $(function() {
+    
+    const cardsContainer = $('#container');
 
     $('#usersBtn').on('click', () => {
         const numberOfUsers = $('#inputGroupSelect01 option:selected').val()
-        init(numberOfUsers)
+        init(numberOfUsers, cardsContainer)
     })
 
     
@@ -26,6 +29,9 @@ $(function() {
 function getName (user) {
     return `${user.name.first} ${user.name.last}`
 }
+function getCountry (user) {
+    return user.location.country
+}
 function getCity (user) {
     return user.location.city
 }
@@ -33,29 +39,33 @@ function getAdress (user) {
     return `${user.location.street.name} ${user.location.street.number}`
 }
 function getUserImgUrl (user) {
-    return user.picture.medium
+    return user.picture.large
 }
 
 
-async function init (numberOfUsers) {
+async function init (numberOfUsers, cardsContainer) {
     try {
         const response = await getUsers({ url: `https://randomuser.me/api/?results=${numberOfUsers}` })
         const { results } = response
-        console.log(results) // DRAW HERE
-        draw(results)
+        console.log(results)
+        draw(results, cardsContainer)
     } catch (err) {
         console.log(err)
         console.error(`message: ${err.statusText} , status: ${err.status}`)
     }
 }
 
-function draw (arrOfObjects) {
+function draw (arrOfObjects, cardsContainer) {
     const mappedUsers = arrOfObjects.map((user) => {
         return getMappedUser(user)
     })
-
     console.log(mappedUsers)
-    //DRAW
+    
+    const cards = mappedUsers.map((user) => {
+        return getCardItem(user)
+    })
+
+    cardsContainer.append(...cards)
 }
 
 function getMappedUser (user) {
@@ -69,3 +79,20 @@ function getMappedUser (user) {
     }, {})
 }
 
+function getCardItem(user) {
+    
+    const cardWrap = $('<div></div>').attr('class', 'card-wrap')
+    const cardHead = $('<div></div>').attr('class', 'card-head bg-light')
+    const userImg = $(`<img src="${user.src}">`).attr('class', 'card-user-img')
+    const cardBody = $('<div></div>').attr('class', 'card-body')
+    const userName = $('<h4></h4>').text(user.fullName)
+    const userCountry = $('<p>></p>').text(user.country)
+    const userAdress = $('<p></p>').html(`${user.city} <br> ${user.address}`)
+
+
+    cardHead.append(userImg)
+    cardBody.append(userName, userCountry, userAdress)
+    cardWrap.append(cardHead, cardBody)
+
+    return cardWrap;
+}
