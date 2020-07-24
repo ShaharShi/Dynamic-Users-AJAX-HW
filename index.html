@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Users AJAX HW - 20.7</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    
+    <script src="https://kit.fontawesome.com/542deca37c.js" crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
     <div class="jumbotron">
-        <h1 class="ml-5">Users Data</h1>
+      <h1 class="ml-5">Users Data</h1>
     </div>
-    <div class="input-group ml-5 col-lg-4">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect01">How many users do you want ? </label>
-        </div>
-        <select class="custom-select" id="inputGroupSelect01">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-        </select>
-        <button class="btn btn-success ml-5" id="usersBtn">Submit</button>
+    <div class="input-group ml-3 col-xl-5 col-lg-6 col-md-8 col-sm-10 col-11">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01"
+          >How many users do you want ?
+        </label>
       </div>
+      <select class="custom-select" id="inputGroupSelect01">
+        <!-- Draw number of users HERE !!! -->
+      </select>
+      <button class="btn btn-success ml-3" id="usersBtn">Submit</button>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <div class="cards-container" id="container"></div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <script src="./app.js"></script>
-</body>
+  </body>
 </html>
