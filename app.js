@@ -6,21 +6,20 @@ function getUsers(params) {
   });
 }
 
-// const mappingWithFunction = {
-//   fullName: { fn: getName, isVisible: true },
-//   country: { fn: getCountry, isVisible: true },
-//   city: { fn: getCity, isVisible: true },
-//   address: { fn: getAdress, isVisible: true },
-//   src: { fn: getUserImgUrl, isVisible: true },
-// };
-const mapping = {
+const mappingUserData = {
   firstName: { path: "name.first", isVisible: true },
   lastName: { path: "name.last", isVisible: true },
   country: { path: "location.country", isVisible: true },
   city: { path: "location.city", isVisible: true },
-  address: { path: "location.street.name", isVisible: true },
+  address: { fn: getAdress, isVisible: true },
   src: { path: "picture.large", isVisible: true },
 };
+
+function getAdress(user) {
+  const pathArr = ["location.street.name", "location.street.number"];
+  const requestedVal = pathArr.map( path => { return getValueFromPath(path, user) })
+  return requestedVal.toString().replace(/,/, ' ')
+}
 
 $(function () {
   let numberOfUsersRequested;
@@ -32,46 +31,18 @@ $(function () {
 
   if (numOfUserInLS) {
     $("#inputGroupSelect01").val(numOfUserInLS);
-    getData(numOfUserInLS, cardsContainer);
+    getUsersData(numOfUserInLS, cardsContainer);
   }
 
   $("#usersBtn").on("click", () => {
     numberOfUsersRequested = $("#inputGroupSelect01 option:selected").val();
     localStorage.setItem("numOfUsers", numberOfUsersRequested);
-    getData(localStorage.getItem("numOfUsers"), cardsContainer);
+    getUsersData(localStorage.getItem("numOfUsers"), cardsContainer);
   });
 });
 
-// function getName(user) {
-//   const pathArr = ["name.first", "name.last"];
-//   const requestedVal = pathArr.map( path => { return checkVal(path, user) })
-//   return requestedVal.toString().replace(/,/, ' ')
-// }
-// function getCountry(user) {
-//   const pathArr = ["location.country"];
-//   const requestedVal = pathArr.map( path => { return checkVal(path, user) })
-//   return requestedVal.toString().replace(/,/, ' ')
-// }
-// function getCity(user) {
-//   return user.location.city;
-// }
-// function getAdress(user) {
-//   return `${user.location.street.name} ${user.location.street.number}`;
-// }
-// function getUserImgUrl(user) {
-//   return user.picture.large;
-// }
 
-// function checkVal(currentPath, user) {
-//   if (typeof currentPath !== "string") return
-//   const splittedPath = currentPath.split('.')
-//   return splittedPath.reduce((currentUser, partOfPath) => {
-//     const thereIsVal = currentUser[partOfPath]
-//     return thereIsVal ? currentUser[partOfPath]: 'Not Availble'
-//   }, user)
-// }
-
-async function getData(numberOfUsers, cardsContainer) {
+async function getUsersData(numberOfUsers, cardsContainer) {
   try {
     const response = await getUsers({
       url: `https://randomuser.me/api/?results=${numberOfUsers}`,
@@ -100,7 +71,7 @@ function draw(arrOfObjects, cardsContainer) {
 }
 
 function getMappedUser(user) {
-  const keyValueMappingArray = Object.entries(mapping);
+  const keyValueMappingArray = Object.entries(mappingUserData);
 
   return keyValueMappingArray.reduce((mappedUser, KEYVALUEPAIR_ARRAY) => {
     const [key, settingObj] = KEYVALUEPAIR_ARRAY;
