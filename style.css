@@ -12,6 +12,7 @@
   margin: 50px 0;
 }
 .card-wrap {
+  height: 400px;
   width: 250px;
   font-size: 0.8rem;
   border: 1px solid rgb(171, 171, 171);
@@ -29,6 +30,10 @@
 }
 .card-body {
   text-align: center;
+}
+.langs-container {
+  margin-top: 15px;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1400px) {
